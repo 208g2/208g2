@@ -8,9 +8,7 @@ import com.higgsup.fswd.classroommanager.repository.ClassRoomRepository;
 import com.higgsup.fswd.classroommanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -37,12 +35,7 @@ public class UserService  {
     public User findUserToken(String token){
         return userRepository.findByToken(token);
     }
-    public boolean isUser(String token){
-        if(findUserToken(token) != null)
-            return true;
-        else
-            return false;
-    }
+
 
     public User doLogin(UserDTO userDTO) {
         // 1. Generate token if not exist
@@ -59,23 +52,27 @@ public class UserService  {
         return user;
     }
 
-    public User findUser(Long id) {
-        return userRepository.findById(id);
+    public UserDTO findUser(Long id) {
+        User user = userRepository.findById(id);
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(user.getUsername());
+        List<ClassRoom> classRooms = user.getClassRooms();
+        for (ClassRoom classRoom: classRooms) {
+            classRoom.setUsers(null);
+        }
+        userDTO.setClassRooms(classRooms);
+        return userDTO;
     }
 
-    @Autowired
-    private EntityManager entityManager;
-
-    @Transactional
     public ClassRoom createClassRoom(Long id,ClassRoomDTO classRoomDTO) {
         User user = userRepository.findById(id);
         ClassRoom classRoom = new ClassRoom();
         classRoom.setClassName(classRoomDTO.getClassName());
-        classRoom.getUsers().add(user);
+      //  classRoom.getUsers().add(user);
+        user.getClassRooms().add(classRoom);
         classRoom = classRoomRepository.save(classRoom);
         return classRoom;
     }
-
 
     public List<ClassRoom> findClassRooms() {
         List<ClassRoom> classRooms =(List<ClassRoom>) classRoomRepository.findAll();

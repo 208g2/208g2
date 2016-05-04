@@ -1,5 +1,6 @@
 package com.higgsup.fswd.classroommanager.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.higgsup.fswd.classroommanager.controller.dto.ClassRoomDTO;
 import com.higgsup.fswd.classroommanager.controller.dto.UserDTO;
 import com.higgsup.fswd.classroommanager.controller.stereotype.NoAuthentication;
@@ -20,6 +21,8 @@ import java.util.List;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    ObjectMapper mapper;
 
     @NoAuthentication
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
@@ -39,9 +42,8 @@ public class UserController {
 
     @RequiredRoles(Role.TEACHER)
     @RequestMapping(value = "/{id}/classes",method = RequestMethod.GET)
-    public List<ClassRoom> getClasses(@PathVariable("id") Long id){
-        User user = (User) userService.findUser(id);
-        return user.getClassRooms();
+    public UserDTO getClasses(@PathVariable("id") Long id) {
+        return userService.findUser(id);
     }
 
     @RequiredRoles(Role.TEACHER)
@@ -54,5 +56,21 @@ public class UserController {
     @RequestMapping(value = "/classes",method = RequestMethod.GET)
     public List<ClassRoom> getClasses(){
         return userService.findClassRooms();
+    }
+
+    @NoAuthentication
+    @RequestMapping(value = "sth",produces = "application/xml",consumes = "application/xml")
+    public UserDTO getSth(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername("abcd");
+        return userDTO;
+    }
+
+    @NoAuthentication
+    @RequestMapping(value = "sth",produces = "application/json",consumes = "application/json")
+    public UserDTO getSth2(){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername("abcd");
+        return userDTO;
     }
 }

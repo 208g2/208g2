@@ -31,5 +31,11 @@ public class ClassRoom extends HypermediaLinks {
         this.className = className;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

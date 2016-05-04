@@ -1,6 +1,7 @@
 package com.higgsup.fswd.classroommanager.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -22,8 +23,9 @@ public class User extends HypermediaLinks{
     private String token;
     private Date tokenExpiry;
 
-    @ManyToMany
-    private List<ClassRoom> classRooms;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_classroom", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "classroom_id", referencedColumnName = "id"))
+    private List<ClassRoom> classRooms = new ArrayList<ClassRoom>();
 
     public Long getId(){
         return id;
