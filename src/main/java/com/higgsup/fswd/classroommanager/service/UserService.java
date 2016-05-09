@@ -58,7 +58,7 @@ public class UserService  {
         userDTO.setUsername(user.getUsername());
         List<ClassRoom> classRoomses = user.getClassRoomses();
         for (ClassRoom classRoom: classRoomses) {
-            classRoom.setUserses(null);
+            classRoom.setUsers(null);
         }
         userDTO.setClassRoomses(classRoomses);
         return userDTO;

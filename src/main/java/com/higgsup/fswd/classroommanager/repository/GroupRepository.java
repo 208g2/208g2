@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by MyPC on 09/05/2016.
  */
 @Repository
-public interface GroupRepository extends CrudRepository<Group, String> {
+public interface GroupRepository extends CrudRepository<Group, Long> {
+    Group findByID(Long group_id);
 }

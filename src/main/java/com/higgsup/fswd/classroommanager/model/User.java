@@ -27,6 +27,16 @@ public class User extends HypermediaLinks{
     @JoinTable(name = "user_classroom", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "classroom_id", referencedColumnName = "id"))
     private List<ClassRoom> classRoomses = new ArrayList<ClassRoom>();
 
+    @ManyToMany
+    private List<Group> groups = new ArrayList<Group>();
+
+    public List<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(List<Group> groups) {
+        this.groups = groups;
+    }
     public Long getId(){
         return id;
     }

@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ClassRoomRepository extends CrudRepository<ClassRoom,Long> {
+    ClassRoom findByID(Long class_id);
 }
