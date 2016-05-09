@@ -56,26 +56,26 @@ public class UserService  {
         User user = userRepository.findById(id);
         UserDTO userDTO = new UserDTO();
         userDTO.setUsername(user.getUsername());
-        List<ClassRoom> classRooms = user.getClassRooms();
-        for (ClassRoom classRoom: classRooms) {
-            classRoom.setUsers(null);
+        List<ClassRoom> classRoomses = user.getClassRoomses();
+        for (ClassRoom classRoom: classRoomses) {
+            classRoom.setUserses(null);
         }
-        userDTO.setClassRooms(classRooms);
+        userDTO.setClassRoomses(classRoomses);
         return userDTO;
     }
 
-    public ClassRoom createClassRoom(Long id,ClassRoomDTO classRoomDTO) {
+    public ClassRoom createClassRoom(Long id, ClassRoomDTO classRoomDTO) {
         User user = userRepository.findById(id);
         ClassRoom classRoom = new ClassRoom();
         classRoom.setClassName(classRoomDTO.getClassName());
-      //  classRoom.getUsers().add(user);
-        user.getClassRooms().add(classRoom);
+      //  classRoom.getUserses().add(user);
+        user.getClassRoomses().add(classRoom);
         classRoom = classRoomRepository.save(classRoom);
         return classRoom;
     }
 
     public List<ClassRoom> findClassRooms() {
-        List<ClassRoom> classRooms =(List<ClassRoom>) classRoomRepository.findAll();
-        return classRooms;
+        List<ClassRoom> classRoomses =(List<ClassRoom>) classRoomRepository.findAll();
+        return classRoomses;
     }
 }

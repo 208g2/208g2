@@ -13,18 +13,18 @@ public class ClassRoom extends HypermediaLinks {
 
 
     @ManyToMany(mappedBy = "classRooms")
-    private List<User> users = new ArrayList<User>();
+    private List<User> userses = new ArrayList<User>();
 
     public String getClassName() {
         return className;
     }
 
     public List<User> getUsers() {
-        return users;
+        return userses;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setUsers(List<User> userses) {
+        this.userses = userses;
     }
 
     public void setClassName(String className) {

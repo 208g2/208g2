@@ -30,8 +30,8 @@ public class UserController {
         return userService.createUser(user);
     }
 //    @RequestMapping(value = "/signup", method = RequestMethod.GET)
-//    public List<User> Users(){
-//        return userService.getUsers();
+//    public List<User> User(){
+//        return userService.getUserses();
 //    }
 
     @NoAuthentication
@@ -48,7 +48,7 @@ public class UserController {
 
     @RequiredRoles(Role.TEACHER)
     @RequestMapping(value = "/{id}/classes",method = RequestMethod.POST)
-    public ClassRoom setClassRoom(@PathVariable("id") Long id,@RequestBody ClassRoomDTO classRoom){
+    public ClassRoom setClassRoom(@PathVariable("id") Long id, @RequestBody ClassRoomDTO classRoom){
         return userService.createClassRoom(id,classRoom);
     }
 

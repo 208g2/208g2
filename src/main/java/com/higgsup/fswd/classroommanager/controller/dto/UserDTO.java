@@ -16,7 +16,7 @@ public class UserDTO {
     private String username;
     private String password;
     private Role role;
-    private List<ClassRoom> classRooms = new ArrayList<ClassRoom>();
+    private List<ClassRoom> classRoomses = new ArrayList<ClassRoom>();
 
     public String getUsername() {
         return username;
@@ -42,11 +42,11 @@ public class UserDTO {
         this.role = role;
     }
 
-    public List<ClassRoom> getClassRooms(){
-        return classRooms;
+    public List<ClassRoom> getClassRoomses(){
+        return classRoomses;
     }
 
-    public void setClassRooms(List<ClassRoom> classRooms){
-        this.classRooms = classRooms;
+    public void setClassRoomses(List<ClassRoom> classRoomses){
+        this.classRoomses = classRoomses;
     }
 }

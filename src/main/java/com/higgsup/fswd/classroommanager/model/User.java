@@ -25,7 +25,7 @@ public class User extends HypermediaLinks{
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_classroom", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "classroom_id", referencedColumnName = "id"))
-    private List<ClassRoom> classRooms = new ArrayList<ClassRoom>();
+    private List<ClassRoom> classRoomses = new ArrayList<ClassRoom>();
 
     public Long getId(){
         return id;
@@ -75,11 +75,11 @@ public class User extends HypermediaLinks{
         this.tokenExpiry = tokenExpiry;
     }
 
-    public List<ClassRoom> getClassRooms(){
-        return classRooms;
+    public List<ClassRoom> getClassRoomses(){
+        return classRoomses;
     }
 
-    public void setClassRooms(List<ClassRoom> classRooms){
-        this.classRooms = classRooms;
+    public void setClassRoomses(List<ClassRoom> classRoomses){
+        this.classRoomses = classRoomses;
     }
 }
