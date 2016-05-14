@@ -15,10 +15,29 @@ public class Group extends HypermediaLinks{
     private Long class_id;
     private String group_name;
     private Long leader_id;
-    @ManyToMany
-    List<User> students = new ArrayList<User>();
-    @OneToMany
-    List<Posts> posts = new ArrayList<Posts>();
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "groups_has_users",
+            joinColumns = {
+                    @JoinColumn(name = "class_id", referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "user_id",referencedColumnName = "id")
+            }
+    )
+    private List<User> students = new ArrayList<User>();
+
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "groups_has_posts",
+            joinColumns = {
+                    @JoinColumn(name = "group_id",referencedColumnName = "id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "post_id",referencedColumnName = "id")
+            }
+    )
+    private List<Post> posts = new ArrayList<Post>();
 
 
     public Long getId() {
@@ -61,11 +80,11 @@ public class Group extends HypermediaLinks{
         this.students = students;
     }
 
-    public List<Posts> getPosts() {
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<Posts> posts) {
+    public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
 

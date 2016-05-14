@@ -9,12 +9,14 @@ import com.higgsup.fswd.classroommanager.repository.ClassRoomRepository;
 import com.higgsup.fswd.classroommanager.repository.GroupRepository;
 import com.higgsup.fswd.classroommanager.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by MyPC on 09/05/2016.
  */
-public class GroupManagerService {
+public class GroupService {
     @Autowired
     private GroupRepository groupRepository;
     @Autowired
@@ -22,30 +24,48 @@ public class GroupManagerService {
     @Autowired
     private ClassRoomRepository classRoomRepository;
 
-    public List<Group> findAllGroups() {
-        List<Group> groups = (List<Group>) groupRepository.findAll();
-        return groups;
+    public List<GroupDTO> findAllGroups(String token) {
+        User user = userRepository.findByToken(token);
+        List<Group> groups =  groupRepository.findByUser(user);
+        List<GroupDTO> groupDTOs = new ArrayList<GroupDTO>();
+        for (Group group : groups){
+            GroupDTO groupDTO = new GroupDTO();
+            groupDTO.setGroupName(group.getGroup_name());
+            groupDTOs.add(groupDTO);
+        }
+        return groupDTOs;
     }
 
-    public Group findByID(Long group_id) {
-        return groupRepository.findByID(group_id);
-    }
-
-    public Group createGroup(Long user_id, GroupDTO groupDTO) {
-        User user = userRepository.findById(user_id);
-        Group group = new Group();
-        group.setGroup_name(groupDTO.getGroupName());
-        user.getGroups().add(group);
-        group = groupRepository.save(group);
-        return group;
-    }
-
-
-    public Group editGroup(Long user_id, Long group_id, GroupDTO groupDTO) {
-        User user = userRepository.findById(user_id);
+    public GroupDTO findByID(Long group_id) {
         Group group = groupRepository.findByID(group_id);
-        group.setGroup_name(groupDTO.getGroupName());
+        GroupDTO groupDTO = new GroupDTO();
+        groupDTO.setGroupName(group.getGroup_name());
+        groupDTO.setStudents(group.getStudents());
+        groupDTO.setPosts(group.getPosts());
+        return groupDTO;
+    }
+
+    public String createGroup(GroupDTO groupDTO, String token) {
+        User user = userRepository.findByToken(token);
+        Group group = new Group();
+
+        group.setLeader_id(user.getId());
+        group.setGroup_name(groupDTO.getGroup_name());
         user.getGroups().add(group);
+
+        group = groupRepository.save(group);
+        return group.getGroup_name();
+    }
+
+
+    public Group editGroup(Long group_id, GroupDTO groupDTO,String token) {
+        User user = userRepository.findByToken(token);
+        Group group = groupRepository.findByID(group_id);
+
+        group.setGroup_name(groupDTO.getGroup_name());
+        group.setStudents(groupDTO.getStudents());
+        user.getGroups().add(group);
+
         group = groupRepository.save(group);
         return group;
     }
